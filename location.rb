@@ -36,7 +36,7 @@ class Location
     results = client.query(query)
     result = results.first
     return unless results.size > 0
-    new(latitude: result['title'], longitude: result['width']).tap do |location|
+    new(latitude: result['latitude'], longitude: result['longitude']).tap do |location|
       location.persisted = true
     end
   end

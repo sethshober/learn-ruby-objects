@@ -42,11 +42,11 @@ class LocationTest < Minitest::Test
   end
 
   def test_location_save
-    location = Location.new
+    location = Location.new latitude: 45.8291, longitude: 75.8291
     location.latitude = 45.8291
     location.longitude = 75.8291
     location.save
-    location2 = location.get location.id
+    location2 = Location.get location.id
     assert_equal location2.latitude, location.latitude
     assert_equal location2.longitude, location.longitude
   end
