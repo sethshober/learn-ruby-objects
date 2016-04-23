@@ -1,28 +1,14 @@
-require 'mysql2'
+require_relative 'active_record'
 
-class Location
+class Location < ActiveRecord
 
-  def self.db_name
-    @db_name ||= 'photo_db'
-  end
-
-  def self.db_name=(name)
-    @db_name = name
-  end
+  self.table_name = 'locations'
 
   attr_accessor :latitude, :longitude
-
-  attr_reader :id
-
-  attr_writer :persisted
 
   def initialize latitude:, longitude:
     @latitude = latitude
     @longitude = longitude
-  end
-
-  def self.client
-    @client ||= Mysql2::Client.new(:host => "localhost", :username => "root", :database => self.db_name)
   end
 
   def self.create latitude:, longitude:
@@ -49,10 +35,6 @@ class Location
       @id = self.class.client.last_id
       @persisted = true
     end
-  end
-
-  def persisted?
-    @persisted
   end
 
 end

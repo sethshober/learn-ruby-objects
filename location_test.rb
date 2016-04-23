@@ -51,6 +51,13 @@ class LocationTest < Minitest::Test
     assert_equal location2.longitude, location.longitude
   end
 
+  def test_delete_photo
+    location = Location.create latitude: 45.8291, longitude: 75.8291
+    refute_nil Location.get location.id
+    location.delete
+    assert_nil Location.get location.id
+  end
+
   def clear_locations
     @client.query('TRUNCATE locations')
   end

@@ -1,23 +1,8 @@
-require 'mysql2'
+require_relative 'active_record'
 
-class Photo
+class Photo < ActiveRecord
 
-  # class methods
-
-  def self.db_name
-    @db_name ||= 'photo_db'
-  end
-
-  def self.db_name=(name)
-    @db_name = name
-  end
-
-  def self.client
-    # this takes a hash of options, almost all of which map directly
-    # to the familiar database.yml in rails
-    # See http://api.rubyonrails.org/classes/ActiveRecord/ConnectionAdapters/MysqlAdapter.html
-    @client ||= Mysql2::Client.new(:host => "localhost", :username => "root", :database => self.db_name)
-  end
+  self.table_name = 'photos'
 
   # class method
   def self.get id
@@ -52,10 +37,6 @@ class Photo
 
   attr_accessor :title, :height, :width, :path
 
-  attr_reader :id
-
-  attr_writer :persisted
-
   def initialize title: '', width: 0, height: 0, path: ''
     # instance variable
     @title = title
@@ -85,14 +66,6 @@ class Photo
       @id = self.class.client.last_id
       @persisted = true
     end
-  end
-
-  def delete
-    self.class.client.query("DELETE FROM photos WHERE id=#{id}")
-  end
-
-  def persisted?
-    @persisted
   end
 
 end
